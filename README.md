@@ -33,7 +33,7 @@ button.Parent = gui
 
 local sound = Instance.new("Sound")
 sound.SoundId = "rbxassetid://83092494896347"
-sound.Volume = 50
+sound.Volume = 70
 sound.RollOffMaxDistance = 0
 sound.Parent = workspace
 
@@ -98,161 +98,139 @@ button.MouseButton1Click:Connect(function()
     task.spawn(startCooldown)
 end)
 
-print("✅ Zombie Dribbling carregado!")local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local TweenService = game:GetService("TweenService")
+print("✅ Zombie Dribbling carregado!")
 
-local player = Players.LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
+local Players2 = game:GetService("Players")
+local ReplicatedStorage2 = game:GetService("ReplicatedStorage")
+local TweenService2 = game:GetService("TweenService")
 
--- Remote
-local remote = ReplicatedStorage:WaitForChild("SkillActivated")
+local player2 = Players2.LocalPlayer
+local playerGui2 = player2:WaitForChild("PlayerGui")
 
--- CONFIG
-local COOLDOWN_TIME = 20 -- 🔥 botão agora 20 segundos
+local remote = ReplicatedStorage2:WaitForChild("SkillActivated")
+
+local COOLDOWN_TIME2 = 20
 local IMAGE_ID = "rbxassetid://96468463607962"
 local IMAGE_POSITION = UDim2.fromScale(-0.000, -0.028)
 local IMAGE_SIZE = UDim2.fromScale(1, 1)
-local FADE_TIME = 0.60 -- 🔥 fade agora 0.60
-local SHOW_TIME = 0.6 -- tempo antes de começar sumir
+local FADE_TIME = 0.60
+local SHOW_TIME = 0.6
 
--- GUI
-local gui = Instance.new("ScreenGui")
-gui.Name = "ZombieSkill4Gui"
-gui.Parent = playerGui
-gui.ResetOnSpawn = false
+local gui2 = Instance.new("ScreenGui")
+gui2.Name = "ZombieSkill4Gui"
+gui2.Parent = playerGui2
+gui2.ResetOnSpawn = false
 
--- Imagem
-local image = Instance.new("ImageLabel")
-image.Parent = gui
-image.BackgroundTransparency = 1
-image.Image = IMAGE_ID
-image.Position = IMAGE_POSITION
-image.Size = IMAGE_SIZE
-image.Visible = false
-image.ImageTransparency = 1
+local image2 = Instance.new("ImageLabel")
+image2.Parent = gui2
+image2.BackgroundTransparency = 1
+image2.Image = IMAGE_ID
+image2.Position = IMAGE_POSITION
+image2.Size = IMAGE_SIZE
+image2.Visible = false
+image2.ImageTransparency = 1
 
--- 🔊 SOM
-local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://114020174103520"
-sound.Volume = 50
-sound.RollOffMaxDistance = 0
-sound.Parent = workspace
+local sound2 = Instance.new("Sound")
+sound2.SoundId = "rbxassetid://114020174103520"
+sound2.Volume = 50
+sound2.RollOffMaxDistance = 0
+sound2.Parent = workspace
 
--- 🔲 BOTÃO (mesma posição da Skill4 Emperor)
-local button = Instance.new("ImageButton")
-button.Parent = gui
-button.Position = UDim2.fromScale(0.553, 0.769)
-button.Size = UDim2.fromOffset(35, 35)
-button.BackgroundTransparency = 1
-button.ImageTransparency = 1
-button.AutoButtonColor = false
+local button2 = Instance.new("ImageButton")
+button2.Parent = gui2
+button2.Position = UDim2.fromScale(0.553, 0.769)
+button2.Size = UDim2.fromOffset(35, 35)
+button2.BackgroundTransparency = 1
+button2.ImageTransparency = 1
+button2.AutoButtonColor = false
 
--- Cooldown
-local onCooldown = false
+local onCooldown2 = false
 
--- Fade function
-local function fade(img, transparency, time)
-	TweenService:Create(
-		img,
-		TweenInfo.new(time, Enum.EasingStyle.Linear),
-		{ImageTransparency = transparency}
-	):Play()
+local function fade2(img, transparency, time)
+    TweenService2:Create(
+        img,
+        TweenInfo.new(time, Enum.EasingStyle.Linear),
+        {ImageTransparency = transparency}
+    ):Play()
 end
 
-local function showImage()
-	image.Visible = true
-	
-	-- Fade IN
-	fade(image, 0, FADE_TIME)
-
-	task.delay(SHOW_TIME, function()
-		-- Fade OUT
-		fade(image, 1, FADE_TIME)
-		
-		task.delay(FADE_TIME, function()
-			image.Visible = false
-		end)
-	end)
+local function showImage2()
+    image2.Visible = true
+    fade2(image2, 0, FADE_TIME)
+    task.delay(SHOW_TIME, function()
+        fade2(image2, 1, FADE_TIME)
+        task.delay(FADE_TIME, function()
+            image2.Visible = false
+        end)
+    end)
 end
 
--- Clique
-button.MouseButton1Click:Connect(function()
-	if onCooldown then return end
-	onCooldown = true
+button2.MouseButton1Click:Connect(function()
+    if onCooldown2 then return end
+    onCooldown2 = true
 
-	-- 🔥 Remote Event
-	local args = {
-		"ZOMBIE DRIBBLING",
-		"Skill4",
-		{
-			pitch = -0.7631947223756257,
-			lookVector = Vector3.new(
-				-0.6950508952140808,
-				-0.6912335753440857,
-				-0.1977384090423584
-			)
-		}
-	}
+    local args = {
+        "ZOMBIE DRIBBLING",
+        "Skill4",
+        {
+            pitch = -0.7631947223756257,
+            lookVector = Vector3.new(
+                -0.6950508952140808,
+                -0.6912335753440857,
+                -0.1977384090423584
+            )
+        }
+    }
 
-	remote:FireServer(unpack(args))
+    remote:FireServer(unpack(args))
+    sound2:Play()
+    showImage2()
 
-	-- 🔊 Toca o áudio
-	sound:Play()
-
-	-- Visual
-	showImage()
-
-	-- Cooldown do botão (20s)
-	task.delay(COOLDOWN_TIME, function()
-		onCooldown = false
-	end)
+    task.delay(COOLDOWN_TIME2, function()
+        onCooldown2 = false
+    end)
 end)
 
-print("✅ Zombie Skill4 carregada | 20s cooldown | som integrado")local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local TweenService = game:GetService("TweenService")
+print("✅ Zombie Skill4 carregada | 20s cooldown | som integrado")
 
-local player = Players.LocalPlayer
-local skillEvent = ReplicatedStorage:WaitForChild("SkillActivated")
+local Players3 = game:GetService("Players")
+local ReplicatedStorage3 = game:GetService("ReplicatedStorage")
+local TweenService3 = game:GetService("TweenService")
 
--- GUI
-local gui = Instance.new("ScreenGui")
-gui.Name = "Skill3InvisibleButton"
-gui.ResetOnSpawn = false
-gui.Parent = player:WaitForChild("PlayerGui")
+local player3 = Players3.LocalPlayer
+local skillEvent = ReplicatedStorage3:WaitForChild("SkillActivated")
 
--- 🔲 BOTÃO INVISÍVEL (permanece invisível)
-local button = Instance.new("ImageButton")
-button.Parent = gui
-button.Position = UDim2.fromScale(0.503, 0.766)
-button.Size = UDim2.fromOffset(36, 36)
-button.BackgroundTransparency = 1
-button.ImageTransparency = 1
-button.AutoButtonColor = false
+local gui3 = Instance.new("ScreenGui")
+gui3.Name = "Skill3InvisibleButton"
+gui3.ResetOnSpawn = false
+gui3.Parent = player3:WaitForChild("PlayerGui")
 
--- 🖼 IMAGEM QUE APARECE NA SKILL
+local button3 = Instance.new("ImageButton")
+button3.Parent = gui3
+button3.Position = UDim2.fromScale(0.503, 0.766)
+button3.Size = UDim2.fromOffset(36, 36)
+button3.BackgroundTransparency = 1
+button3.ImageTransparency = 1
+button3.AutoButtonColor = false
+
 local skillImage = Instance.new("ImageLabel")
-skillImage.Parent = gui
+skillImage.Parent = gui3
 skillImage.Position = UDim2.fromScale(0.005, -0.092)
 skillImage.Size = UDim2.fromScale(1, 1)
 skillImage.BackgroundTransparency = 1
 skillImage.Image = "rbxassetid://139200942081122"
-skillImage.ImageTransparency = 1 -- começa invisível
+skillImage.ImageTransparency = 1
 skillImage.Visible = true
 skillImage.ZIndex = 10
 
--- 🔊 SOM
-local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://137822897777384"
-sound.Volume = 1
-sound.Parent = gui
+local sound3 = Instance.new("Sound")
+sound3.SoundId = "rbxassetid://137822897777384"
+sound3.Volume = 70
+sound3.Parent = gui3
 
--- COOLDOWN
-local COOLDOWN_TIME = 30
-local onCooldown = false
+local COOLDOWN_TIME3 = 30
+local onCooldown3 = false
 
--- CONFIG
 local delay1 = 0.20
 local delay2 = 1.10
 local delay3 = 1.00
@@ -261,97 +239,85 @@ local dashDistance = 35
 local lastDashExtra = 8
 local dashSteps = 12
 
--- DASH
 local function forcedDash(direction, customDistance)
-	local char = player.Character
-	if not char then return end
-	
-	local hrp = char:FindFirstChild("HumanoidRootPart")
-	if not hrp then return end
-	
-	direction = direction.Unit
-	local distance = customDistance or dashDistance
-	
-	local startPos = hrp.Position
-	local targetPos = startPos + (direction * distance)
-	
-	for i = 1, dashSteps do
-		local newPos = startPos:Lerp(targetPos, i / dashSteps)
-		hrp.CFrame = CFrame.new(newPos, newPos + direction)
-		task.wait(0.01)
-	end
+    local char = player3.Character
+    if not char then return end
+
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+
+    direction = direction.Unit
+    local distance = customDistance or dashDistance
+
+    local startPos = hrp.Position
+    local targetPos = startPos + (direction * distance)
+
+    for i = 1, dashSteps do
+        local newPos = startPos:Lerp(targetPos, i / dashSteps)
+        hrp.CFrame = CFrame.new(newPos, newPos + direction)
+        task.wait(0.01)
+    end
 end
 
--- 🎬 FUNÇÃO FADE
 local function playImageEffect()
-	local fadeIn = TweenService:Create(
-		skillImage,
-		TweenInfo.new(0.67, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-		{ImageTransparency = 0}
-	)
+    local fadeIn3 = TweenService3:Create(
+        skillImage,
+        TweenInfo.new(0.67, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+        {ImageTransparency = 0}
+    )
 
-	local fadeOut = TweenService:Create(
-		skillImage,
-		TweenInfo.new(0.67, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
-		{ImageTransparency = 1}
-	)
+    local fadeOut3 = TweenService3:Create(
+        skillImage,
+        TweenInfo.new(0.67, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
+        {ImageTransparency = 1}
+    )
 
-	fadeIn:Play()
-	fadeIn.Completed:Wait()
-
-	task.wait(0.3) -- tempo visível antes de sumir
-
-	fadeOut:Play()
+    fadeIn3:Play()
+    fadeIn3.Completed:Wait()
+    task.wait(0.3)
+    fadeOut3:Play()
 end
 
--- ATIVAR SKILL
 local function activateSkill()
-	local char = player.Character
-	if not char then return end
-	
-	local hrp = char:WaitForChild("HumanoidRootPart")
+    local char = player3.Character
+    if not char then return end
 
-	local args = {
-		"ZOMBIE DRIBBLING",
-		"Skill3",
-		{
-			pitch = -0.10069907809458593,
-			lookVector = hrp.CFrame.LookVector
-		}
-	}
+    local hrp = char:WaitForChild("HumanoidRootPart")
 
-	-- 🔥 Dispara Remote
-	skillEvent:FireServer(unpack(args))
+    local args = {
+        "ZOMBIE DRIBBLING",
+        "Skill3",
+        {
+            pitch = -0.10069907809458593,
+            lookVector = hrp.CFrame.LookVector
+        }
+    }
 
-	-- 🔊 Som
-	sound:Play()
+    skillEvent:FireServer(unpack(args))
+    sound3:Play()
+    task.spawn(playImageEffect)
 
-	-- 🖼 Efeito visual
-	task.spawn(playImageEffect)
+    task.wait(1)
+    task.wait(delay1)
+    forcedDash(hrp.CFrame.LookVector)
 
-	task.wait(1)
+    task.wait(delay2)
+    forcedDash(hrp.CFrame.LookVector - hrp.CFrame.RightVector)
 
-	task.wait(delay1)
-	forcedDash(hrp.CFrame.LookVector)
-
-	task.wait(delay2)
-	forcedDash(hrp.CFrame.LookVector - hrp.CFrame.RightVector)
-
-	task.wait(delay3)
-	local finalDirection = (hrp.CFrame.RightVector * 0.6 + hrp.CFrame.LookVector * 0.4)
-	forcedDash(finalDirection, dashDistance + lastDashExtra)
+    task.wait(delay3)
+    local finalDirection = (hrp.CFrame.RightVector * 0.6 + hrp.CFrame.LookVector * 0.4)
+    forcedDash(finalDirection, dashDistance + lastDashExtra)
 end
 
--- CLIQUE
-button.MouseButton1Click:Connect(function()
-	if onCooldown then return end
-	onCooldown = true
+button3.MouseButton1Click:Connect(function()
+    if onCooldown3 then return end
+    onCooldown3 = true
 
-	task.spawn(activateSkill)
+    task.spawn(activateSkill)
 
-	task.delay(COOLDOWN_TIME, function()
-		onCooldown = false
-	end)
+    task.delay(COOLDOWN_TIME3, function()
+        onCooldown3 = false
+    end)
 end)
 
 print("✅ Skill3 pronta | Fade 0.67s ativado")
