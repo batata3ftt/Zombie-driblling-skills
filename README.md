@@ -32,7 +32,7 @@ button.ZIndex = 10
 button.Parent = gui
 
 local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://83092494896347"
+sound.SoundId = "rbxassetid://121427698910736"
 sound.Volume = 70
 sound.RollOffMaxDistance = 0
 sound.Parent = workspace
